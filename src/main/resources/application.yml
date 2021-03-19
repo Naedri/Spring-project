@@ -4,10 +4,17 @@ spring:
     username:
     password:
     driver-class-name: org.postgresql.Driver
+    tomcat:
+      max-wait: 1000
+      max-active: 3
+      test-on-borrow: true
+    data: classpath:data.sql
+    initialization-mode:
   jpa:
     database: POSTGRESQL
     show-sql: true
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
 
