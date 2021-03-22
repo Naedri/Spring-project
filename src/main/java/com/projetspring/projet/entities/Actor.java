@@ -1,18 +1,21 @@
 package com.projetspring.projet.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.springframework.data.annotation.Id;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
+import javax.persistence.*;
+import java.util.List;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-
-@Data
-@AllArgsConstructor
+@Entity
+@Getter
+@Setter
 @NoArgsConstructor
-public class Movie {
+@ToString
+@Table(name = "actors")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+public class Actor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +25,8 @@ public class Movie {
 
     private String lastName;
 
-    
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "actors", targetEntity = Movie.class, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    private List<Movie> movies;
 
 }

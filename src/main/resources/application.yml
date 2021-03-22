@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://tai.db.elephantsql.com:5432/vszwekpf
-    username:
-    password:
+    username: vszwekpf
+    password: JfaRffG5fzDaveGgiEq5nkl0jd8x1hA-
     driver-class-name: org.postgresql.Driver
     tomcat:
       max-wait: 1000
