@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,17 +30,7 @@ public class Movie {
 
     private String synopsis;
 
-//    @ToString.Exclude
-//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH}, targetEntity = Actor.class, fetch = FetchType.EAGER)
-//    @JoinTable(name = "plays",
-//            joinColumns = {
-//                    @JoinColumn(name = "movie_id", referencedColumnName = "id",
-//                            nullable = false, updatable = false)},
-//            inverseJoinColumns = {
-//                    @JoinColumn(name = "actor_id", referencedColumnName = "id",
-//                            nullable = false, updatable = false)})
-//    private List<Actor> actors;
-
+    @ToString.Exclude
     @ManyToMany(targetEntity = Actor.class, fetch = FetchType.LAZY)
     @JoinTable(name = "plays",
             joinColumns = {
@@ -48,15 +39,5 @@ public class Movie {
             inverseJoinColumns = {
                     @JoinColumn(name = "actor_id", referencedColumnName = "id",
                             nullable = false, updatable = false)})
-    private Set<Actor> actors = new HashSet<>();
-
-    public void addActor(Actor actor){
-        actors.add(actor);
-        actor.getMovies().add(this);
-    }
-
-    public void removeActor(Actor actor){
-        actors.remove(actor);
-        actor.getMovies().remove(this);
-    }
+    private List<Actor> actors = new ArrayList<>();
 }

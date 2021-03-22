@@ -1,9 +1,12 @@
 package com.projetspring.projet.controller;
 
 import com.projetspring.projet.entities.Movie;
+import com.projetspring.projet.responses.MovieWithActorsDTO;
 import com.projetspring.projet.service.MovieService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -25,5 +28,11 @@ public class MovieController {
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
         movieService.addMovie(movie);
         return ResponseEntity.ok(movie);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<MovieWithActorsDTO>> findAll() {
+        List<MovieWithActorsDTO> movies = movieService.findAll();
+        return ResponseEntity.ok(movies);
     }
 }

@@ -8,7 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ActorRepository extends JpaRepository<Actor, Long> {
-    default void addActor(Actor actor) {
-        save(actor);
-    }
 }

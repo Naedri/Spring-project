@@ -2,11 +2,13 @@ package com.projetspring.projet.repository;
 
 import com.projetspring.projet.entities.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
-    default void addMovie(Movie movie) {
-        save(movie);
-    }
+    @Query("SELECT m FROM Movie AS m JOIN FETCH m.actors")
+    List<Movie> getAllByJPQL();
 }

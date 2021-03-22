@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,21 +29,7 @@ public class Actor {
 
     private String lastName;
 
-//    @ToString.Exclude
-//    @EqualsAndHashCode.Exclude
-//    @ManyToMany(mappedBy = "actors", targetEntity = Movie.class, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
-//    private List<Movie> movies;
-//
+    @ToString.Exclude
     @ManyToMany(targetEntity = Movie.class, mappedBy = "actors", fetch = FetchType.LAZY)
-    private Set<Movie> movies = new HashSet<>();
-
-    public void addMovie(Movie movie){
-        movies.add(movie);
-        movie.getActors().add(this);
-    }
-
-    public void removeMovie(Movie movie){
-        movies.remove(movie);
-        movie.getActors().remove(this);
-    }
+    private List<Movie> movies = new ArrayList<>();
 }

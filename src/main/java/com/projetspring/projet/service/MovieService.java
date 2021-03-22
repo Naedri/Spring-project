@@ -4,8 +4,13 @@ import com.projetspring.projet.entities.Actor;
 import com.projetspring.projet.entities.Movie;
 import com.projetspring.projet.repository.ActorRepository;
 import com.projetspring.projet.repository.MovieRepository;
+import com.projetspring.projet.responses.MovieWithActorsDTO;
+import com.projetspring.projet.responses.utils.MovieMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MovieService {
@@ -25,8 +30,19 @@ public class MovieService {
     @Transactional(rollbackFor = Exception.class)
     public void addMovie(Movie movie) {
         for (Actor actor : movie.getActors()) {
-            actorRepository.addActor(actor);
+            actorRepository.save(actor);
         }
-        movieRepository.addMovie(movie);
+        movieRepository.save(movie);
+    }
+
+    public List<MovieWithActorsDTO> findAll() {
+        List<Movie> movies = movieRepository.getAllByJPQL();
+        System.out.println(movies);
+        List<MovieWithActorsDTO> movieWithActorsDTOS = new ArrayList<>();
+        for (Movie movie : movies) {
+            System.out.println("ici"+movie);
+            movieWithActorsDTOS.add(MovieMapper.movieToMovieWithActorsDTP(movie));
+        }
+        return movieWithActorsDTOS;
     }
 }
