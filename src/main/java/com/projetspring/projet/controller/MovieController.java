@@ -23,11 +23,7 @@ public class MovieController {
 
     @PostMapping("/add")
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
-        boolean success = movieService.addMovie(movie);
-        if (success) {
-            return ResponseEntity.ok(movie);
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+        movieService.addMovie(movie);
+        return ResponseEntity.ok(movie);
     }
 }

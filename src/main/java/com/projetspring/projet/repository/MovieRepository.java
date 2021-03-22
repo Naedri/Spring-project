@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
+    default void addMovie(Movie movie) {
+        save(movie);
+    }
 }
