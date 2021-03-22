@@ -16,11 +16,18 @@ public class MovieController {
     }
 
     @DeleteMapping("/delete/{movieId}")
-    public ResponseEntity<String> deleteMovie(@PathVariable("movieId") Long movieId){
+    public ResponseEntity<String> deleteMovie(@PathVariable("movieId") Long movieId) {
         movieService.deleteMovie(movieId);
         return ResponseEntity.ok("deleted successfully");
     }
 
-
-
+    @PostMapping("/add")
+    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
+        boolean success = movieService.addMovie(movie);
+        if (success) {
+            return ResponseEntity.ok(movie);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

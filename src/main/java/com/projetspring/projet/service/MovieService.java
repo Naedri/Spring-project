@@ -14,6 +14,15 @@ public class MovieService {
     }
 
     public void deleteMovie(Long movieId) {
-      movieRepository.deleteById(movieId);
+        movieRepository.deleteById(movieId);
+    }
+
+    public boolean addMovie(Movie movie) {
+        try {
+            movieRepository.save(movie);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 }
