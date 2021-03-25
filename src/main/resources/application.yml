@@ -8,7 +8,6 @@ spring:
       max-wait: 1000
       max-active: 3
       test-on-borrow: true
-    data: classpath:data.sql
     initialization-mode:
   jpa:
     database: POSTGRESQL
