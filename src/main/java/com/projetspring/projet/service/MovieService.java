@@ -3,6 +3,7 @@ package com.projetspring.projet.service;
 import com.projetspring.projet.entities.Actor;
 import com.projetspring.projet.entities.Movie;
 import com.projetspring.projet.exceptions.MovieCreationWithoutActorsException;
+import com.projetspring.projet.exceptions.NoneExistantActorException;
 import com.projetspring.projet.repositories.ActorRepository;
 import com.projetspring.projet.repositories.MovieRepository;
 import com.projetspring.projet.responses.MovieWithActorsDTO;
@@ -29,18 +30,20 @@ public class MovieService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void addMovie(MovieWithActorsDTO movieWithActorsDTO) throws MovieCreationWithoutActorsException {
+    public MovieWithActorsDTO addMovie(MovieWithActorsDTO movieWithActorsDTO) throws MovieCreationWithoutActorsException, NoneExistantActorException {
         if (movieWithActorsDTO.getActors().isEmpty()) {
             throw new MovieCreationWithoutActorsException("Impossible de créer un film sans acteur, relation many to many requise !");
         }
         Movie movie = MovieMapper.movieWithActorsDTOtoMovie(movieWithActorsDTO);
         for (Actor actor : movie.getActors()) {
-            if (actor.getId() != null) {
-                actor = actorRepository.findById(actor.getId()).orElseThrow();
+            Long actorId = actor.getId();
+            if (actorId != null) {
+                actor = actorRepository.findById(actorId).orElseThrow(() -> new NoneExistantActorException(String.format("Impossible d'ajouter le film, l'acteur id:%s est inexistant!", actorId)));
             }
             actorRepository.save(actor);
         }
         movieRepository.save(movie);
+        return MovieMapper.movieToMovieWithActorsDTO(movie);
     }
 
     public List<MovieWithActorsDTO> findAll() {
@@ -52,7 +55,7 @@ public class MovieService {
         return movieWithActorsDTOS;
     }
 
-    public List<MovieWithActorsDTO> getAllMoviesGreaterThan(Long rate) {
+    public List<MovieWithActorsDTO> getAllMoviesGreaterThan(Float rate) {
         List<Movie> movies = movieRepository.getAllMoviesGreaterThanByJPQL(rate);
         List<MovieWithActorsDTO> movieWithActorsDTOS = new ArrayList<>();
         for (Movie movie : movies) {

@@ -13,5 +13,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     List<Movie> getAllByJPQL();
 
     @Query("SELECT m FROM Movie AS m JOIN FETCH m.actors where m.rate >= ?1")
-    List<Movie> getAllMoviesGreaterThanByJPQL(Long rate);
+    List<Movie> getAllMoviesGreaterThanByJPQL(Float rate);
 }
