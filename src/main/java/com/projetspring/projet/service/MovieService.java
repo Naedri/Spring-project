@@ -29,8 +29,8 @@ public class MovieService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void addMovie(MovieWithActorsDTO movieWithActorsDTO) throws MovieCreationWithoutActorsException{
-        if(movieWithActorsDTO.getActors().size() <= 0){
+    public void addMovie(MovieWithActorsDTO movieWithActorsDTO) throws MovieCreationWithoutActorsException {
+        if (movieWithActorsDTO.getActors().size() <= 0) {
             throw new MovieCreationWithoutActorsException("Impossible de créer un film sans acteur, relation many to many requise !");
         }
         Movie movie = MovieMapper.movieWithActorsDTOtoMovie(movieWithActorsDTO);
@@ -42,10 +42,17 @@ public class MovieService {
 
     public List<MovieWithActorsDTO> findAll() {
         List<Movie> movies = movieRepository.getAllByJPQL();
-        System.out.println(movies);
         List<MovieWithActorsDTO> movieWithActorsDTOS = new ArrayList<>();
         for (Movie movie : movies) {
-            System.out.println("ici"+movie);
+            movieWithActorsDTOS.add(MovieMapper.movieToMovieWithActorsDTO(movie));
+        }
+        return movieWithActorsDTOS;
+    }
+
+    public List<MovieWithActorsDTO> getAllMoviesGreaterThan(Long rate) {
+        List<Movie> movies = movieRepository.getAllMoviesGreaterThanByJPQL(rate);
+        List<MovieWithActorsDTO> movieWithActorsDTOS = new ArrayList<>();
+        for (Movie movie : movies) {
             movieWithActorsDTOS.add(MovieMapper.movieToMovieWithActorsDTO(movie));
         }
         return movieWithActorsDTOS;

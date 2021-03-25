@@ -27,9 +27,9 @@ public class MovieController {
 
     @PostMapping("/add")
     public ResponseEntity<MovieWithActorsDTO> addMovie(@RequestBody MovieWithActorsDTO movie) {
-        try{
+        try {
             movieService.addMovie(movie);
-        }catch (MovieCreationWithoutActorsException e){
+        } catch (MovieCreationWithoutActorsException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -40,6 +40,12 @@ public class MovieController {
     @GetMapping("")
     public ResponseEntity<List<MovieWithActorsDTO>> findAll() {
         List<MovieWithActorsDTO> movies = movieService.findAll();
+        return ResponseEntity.ok(movies);
+    }
+
+    @GetMapping("/sort")
+    public ResponseEntity<List<MovieWithActorsDTO>> getAllMoviesGreaterThan(@RequestParam Long rate) {
+        List<MovieWithActorsDTO> movies = movieService.getAllMoviesGreaterThan(rate);
         return ResponseEntity.ok(movies);
     }
 }

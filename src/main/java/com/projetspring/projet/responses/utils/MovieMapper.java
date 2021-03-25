@@ -27,6 +27,7 @@ public class MovieMapper {
         Movie movie = new Movie();
         movie.setTitle(movieWithActorsDTO.getTitle());
         movie.setSynopsis(movieWithActorsDTO.getSynopsis());
+        movie.setRate(movieWithActorsDTO.getRate());
         List<ActorMiniDTO> actorsDto = movieWithActorsDTO.getActors();
         List<Actor> actors = new ArrayList<>();
         for (ActorMiniDTO actorDto : actorsDto) {
