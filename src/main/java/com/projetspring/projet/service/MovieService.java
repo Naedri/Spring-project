@@ -27,20 +27,19 @@ public class MovieService {
         this.actorRepository = actorRepository;
     }
 
-    public void deleteMovie(Long movieId) {
-        movieRepository.deleteById(movieId);
-    }
-
     @Transactional(rollbackFor = Exception.class)
     public MovieWithActorsDTO addMovie(MovieWithActorsDTO movieWithActorsDTO) throws MovieCreationWithoutActorsException, NoneExistantActorException {
         if (movieWithActorsDTO.getActors().isEmpty()) {
             throw new MovieCreationWithoutActorsException("Impossible de créer un film sans acteur, relation many to many requise !");
         }
         Movie movie = MovieMapper.movieWithActorsDTOtoMovie(movieWithActorsDTO);
-        for (Actor actor : movie.getActors()) {
+        List<Actor> actors = movie.getActors();
+        for (int i = 0; i < actors.size(); ++i) {
+            Actor actor = actors.get(i);
             Long actorId = actor.getId();
             if (actorId != null) {
                 actor = actorRepository.findById(actorId).orElseThrow(() -> new NoneExistantActorException(String.format("Impossible d'ajouter le film, l'acteur id:%s est inexistant!", actorId)));
+                actors.set(i, actor);
             }
             actorRepository.save(actor);
         }
@@ -64,5 +63,9 @@ public class MovieService {
             movieWithActorsDTOS.add(MovieMapper.movieToMovieWithActorsDTO(movie));
         }
         return movieWithActorsDTOS;
+    }
+
+    public MovieWithActorsDTO findById(Long movieId) {
+        return MovieMapper.movieToMovieWithActorsDTO(movieRepository.findByJPQL(movieId));
     }
 }

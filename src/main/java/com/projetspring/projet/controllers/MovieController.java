@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/movies")
 public class MovieController {
@@ -20,10 +21,10 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @DeleteMapping("/delete/{movieId}")
-    public ResponseEntity<String> deleteMovie(@PathVariable("movieId") Long movieId) {
-        movieService.deleteMovie(movieId);
-        return ResponseEntity.ok("deleted successfully");
+    @GetMapping("/movie/{movieId}")
+    public ResponseEntity<MovieWithActorsDTO> findById(@PathVariable("movieId") Long movieId) {
+        MovieWithActorsDTO movie = movieService.findById(movieId);
+        return ResponseEntity.ok(movie);
     }
 
     @PostMapping("/add")
