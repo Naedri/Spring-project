@@ -28,19 +28,19 @@ public class MovieRepositoryTest {
 
     @Test
     void getAllByJPQLTest() {
-        Movie movieWithActorsDTO = new Movie(null, "title", 0f, "synopsis", null);
-        Movie movieWithActorsDTO2 = new Movie(null, "title2", 0f, "synopsis", null);
-        Actor actorMiniDTO = new Actor(null, "Jean", "Dujardin", Arrays.asList(movieWithActorsDTO));
-        movieWithActorsDTO.setActors(Arrays.asList(actorMiniDTO));
-        movieWithActorsDTO2.setActors(Arrays.asList(actorMiniDTO));
+        Movie movie = new Movie(null, "title", 0f, "synopsis", null);
+        Movie movie1 = new Movie(null, "title2", 0f, "synopsis", null);
+        Actor actor = new Actor(null, "Jean", "Dujardin", Arrays.asList(movie, movie1));
+        movie.setActors(Arrays.asList(actor));
+        movie1.setActors(Arrays.asList(actor));
 
-        actorRepository.save(actorMiniDTO);
-        movieRepository.save(movieWithActorsDTO);
-        movieRepository.save(movieWithActorsDTO2);
+        actorRepository.save(actor);
+        movieRepository.save(movie);
+        movieRepository.save(movie1);
 
         List<Movie> movieList = movieRepository.getAllByJPQL();
         Assertions.assertEquals(2, movieList.size());
-        Assertions.assertEquals(movieWithActorsDTO, movieList.get(0));
-        Assertions.assertEquals(movieWithActorsDTO2, movieList.get(1));
+        Assertions.assertEquals(movie, movieList.get(0));
+        Assertions.assertEquals(movie1, movieList.get(1));
     }
 }
