@@ -2,6 +2,7 @@ package com.projetspring.projet.service;
 
 import com.projetspring.projet.entities.Actor;
 import com.projetspring.projet.entities.Movie;
+import com.projetspring.projet.exceptions.MovieCreationWithoutActorsException;
 import com.projetspring.projet.repository.ActorRepository;
 import com.projetspring.projet.repository.MovieRepository;
 import com.projetspring.projet.responses.MovieWithActorsDTO;
@@ -28,7 +29,10 @@ public class MovieService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void addMovie(Movie movie) {
+    public void addMovie(Movie movie) throws MovieCreationWithoutActorsException {
+        if(movie.getActors().size() <= 0){
+            throw new MovieCreationWithoutActorsException("Impossible de créer un film sans acteur, relation many to many requise !");
+        }
         for (Actor actor : movie.getActors()) {
             actorRepository.save(actor);
         }
