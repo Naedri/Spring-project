@@ -45,10 +45,8 @@ public class MovieService {
 
     public List<MovieWithActorsDTO> findAll() {
         List<Movie> movies = movieRepository.getAllByJPQL();
-        System.out.println(movies);
         List<MovieWithActorsDTO> movieWithActorsDTOS = new ArrayList<>();
         for (Movie movie : movies) {
-            System.out.println("ici" + movie);
             movieWithActorsDTOS.add(MovieMapper.movieToMovieWithActorsDTO(movie));
         }
         return movieWithActorsDTOS;

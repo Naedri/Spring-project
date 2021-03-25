@@ -11,13 +11,10 @@ public class ActorMapper {
 
     public static Actor actorMiniDTOToActor(ActorMiniDTO actorMiniDTO){
         Actor a = new Actor();
-        System.out.println(actorMiniDTO);
         a.setFirstName(actorMiniDTO.getFirstName());
         a.setLastName(actorMiniDTO.getLastName());
-        System.out.println(actorMiniDTO.getId());
         if (actorMiniDTO.getId() != null)
             a.setId(actorMiniDTO.getId());
-        System.out.println(a);
         return a;
     }
 }
