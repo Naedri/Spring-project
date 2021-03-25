@@ -11,12 +11,10 @@ import java.util.List;
 
 public class MovieMapper {
     public static final MovieWithActorsDTO movieToMovieWithActorsDTO(Movie movie) {
-        System.out.println("test" + movie);
         MovieWithActorsDTO movieWithActorsDTO = new MovieWithActorsDTO(movie.getId(), movie.getTitle(), movie.getRate(), movie.getSynopsis());
         List<ActorMiniDTO> actorMiniDTOS = new ArrayList<>();
         Hibernate.initialize(movie.getActors());
         for (Actor actor : movie.getActors()) {
-            System.out.println(actor);
             actorMiniDTOS.add(ActorMapper.actorToActorMiniDTO(actor));
         }
         movieWithActorsDTO.setActors(actorMiniDTOS);

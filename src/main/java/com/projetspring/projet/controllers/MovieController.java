@@ -30,7 +30,6 @@ public class MovieController {
         try {
             movieService.addMovie(movie);
         } catch (MovieCreationWithoutActorsException e) {
-            System.out.println(e.getMessage());
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }

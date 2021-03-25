@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/actors")
 public class ActorController {
-    private ActorService actorService;
+    private final ActorService actorService;
 
     @Autowired
     public ActorController(ActorService actorService) {
