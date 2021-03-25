@@ -30,11 +30,7 @@ public class MovieMapper {
         List<ActorMiniDTO> actorsDto = movieWithActorsDTO.getActors();
         List<Actor> actors = new ArrayList<>();
         for (ActorMiniDTO actorDto : actorsDto) {
-            Actor a = new Actor();
-            a.setFirstName(actorDto.getFirstName());
-            a.setLastName(actorDto.getLastName());
-            if (a.getId() != null)
-                a.setId(actorDto.getId());
+            Actor a = ActorMapper.actorMiniDTOToActor(actorDto);
             actors.add(a);
         }
         movie.setActors(actors);
