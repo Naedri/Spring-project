@@ -1,6 +1,5 @@
-package com.projetspring.projet.controller;
+package com.projetspring.projet.controllers;
 
-import com.projetspring.projet.entities.Movie;
 import com.projetspring.projet.responses.MovieWithActorsDTO;
 import com.projetspring.projet.service.MovieService;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,7 @@ public class MovieController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
+    public ResponseEntity<MovieWithActorsDTO> addMovie(@RequestBody MovieWithActorsDTO movie) {
         movieService.addMovie(movie);
         return ResponseEntity.ok(movie);
     }

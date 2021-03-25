@@ -2,8 +2,8 @@ package com.projetspring.projet.service;
 
 import com.projetspring.projet.entities.Actor;
 import com.projetspring.projet.entities.Movie;
-import com.projetspring.projet.repository.ActorRepository;
-import com.projetspring.projet.repository.MovieRepository;
+import com.projetspring.projet.repositories.ActorRepository;
+import com.projetspring.projet.repositories.MovieRepository;
 import com.projetspring.projet.responses.MovieWithActorsDTO;
 import com.projetspring.projet.responses.utils.MovieMapper;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,8 @@ public class MovieService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void addMovie(Movie movie) {
+    public void addMovie(MovieWithActorsDTO movieWithActorsDTO) {
+        Movie movie = MovieMapper.movieWithActorsDTOtoMovie(movieWithActorsDTO);
         for (Actor actor : movie.getActors()) {
             actorRepository.save(actor);
         }
@@ -41,7 +42,7 @@ public class MovieService {
         List<MovieWithActorsDTO> movieWithActorsDTOS = new ArrayList<>();
         for (Movie movie : movies) {
             System.out.println("ici"+movie);
-            movieWithActorsDTOS.add(MovieMapper.movieToMovieWithActorsDTP(movie));
+            movieWithActorsDTOS.add(MovieMapper.movieToMovieWithActorsDTO(movie));
         }
         return movieWithActorsDTOS;
     }
