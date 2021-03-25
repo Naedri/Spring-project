@@ -33,6 +33,7 @@ public class Actor {
 
     private String lastName;
 
+    @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @ManyToMany(targetEntity = Movie.class, mappedBy = "actors", fetch = FetchType.LAZY)
     private List<Movie> movies = new ArrayList<>();
