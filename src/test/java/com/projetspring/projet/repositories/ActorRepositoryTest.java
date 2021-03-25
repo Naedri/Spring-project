@@ -13,10 +13,6 @@ import java.util.Collections;
 
 
 @ExtendWith(SpringExtension.class)
-
-/**
- * @link https://reflectoring.io/spring-boot-data-jpa-test/
- */
 @DataJpaTest
 class ActorRepositoryTest {
 
@@ -34,18 +30,18 @@ class ActorRepositoryTest {
         String surname2 = "Pierre";
         String lastname2 = "Dujardin";
 
-        Movie movieWithActorsDTO1 = new Movie(null, "title", 0f, "synopsis", null);
-        Movie movieWithActorsDTO2 = new Movie(null, "title2", 0f, "synopsis", null);
-        Actor actorMiniDTO1 = new Actor(null, surname1, lastname1, Collections.singletonList(movieWithActorsDTO1));
-        Actor actorMiniDTO2 = new Actor(null, surname2, lastname2, Collections.singletonList(movieWithActorsDTO1));
+        Movie movie1 = new Movie(null, "title", 0f, "synopsis", null);
+        Movie movie2 = new Movie(null, "title2", 0f, "synopsis", null);
+        Actor actor1 = new Actor(null, surname1, lastname1, Collections.singletonList(movie1));
+        Actor actor2 = new Actor(null, surname2, lastname2, Collections.singletonList(movie1));
 
-        movieWithActorsDTO1.setActors(Collections.singletonList(actorMiniDTO1));
-        movieWithActorsDTO2.setActors(Collections.singletonList(actorMiniDTO2));
+        movie1.setActors(Collections.singletonList(actor1));
+        movie2.setActors(Collections.singletonList(actor2));
 
-        actorRepository.save(actorMiniDTO1);
-        actorRepository.save(actorMiniDTO2);
-        movieRepository.save(movieWithActorsDTO1);
-        movieRepository.save(movieWithActorsDTO2);
+        actorRepository.save(actor1);
+        actorRepository.save(actor2);
+        movieRepository.save(movie1);
+        movieRepository.save(movie2);
 
         Actor actorFetched = actorRepository.findByJPQL(surname1, lastname1);
         Assertions.assertEquals(surname1, actorFetched.getFirstName());
