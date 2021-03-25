@@ -1,6 +1,8 @@
-package com.projetspring.projet.controller;
+package com.projetspring.projet.controllers;
 
-import com.projetspring.projet.entities.Movie;
+
+import com.projetspring.projet.exceptions.MovieCreationWithoutActorsException;
+import com.projetspring.projet.exceptions.NoneExistantActorException;
 import com.projetspring.projet.responses.MovieWithActorsDTO;
 import com.projetspring.projet.service.MovieService;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +27,25 @@ public class MovieController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
-        movieService.addMovie(movie);
+    public ResponseEntity<MovieWithActorsDTO> addMovie(@RequestBody MovieWithActorsDTO movie) {
+        try {
+            movie = movieService.addMovie(movie);
+        } catch (MovieCreationWithoutActorsException | NoneExistantActorException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(movie);
     }
 
     @GetMapping("")
     public ResponseEntity<List<MovieWithActorsDTO>> findAll() {
         List<MovieWithActorsDTO> movies = movieService.findAll();
+        return ResponseEntity.ok(movies);
+    }
+
+    @GetMapping("/sort")
+    public ResponseEntity<List<MovieWithActorsDTO>> getAllMoviesGreaterThan(@RequestParam Float rate) {
+        List<MovieWithActorsDTO> movies = movieService.getAllMoviesGreaterThan(rate);
         return ResponseEntity.ok(movies);
     }
 }
