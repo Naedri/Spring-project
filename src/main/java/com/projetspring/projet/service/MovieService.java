@@ -30,10 +30,10 @@ public class MovieService {
 
     @Transactional(rollbackFor = Exception.class)
     public void addMovie(MovieWithActorsDTO movieWithActorsDTO) throws MovieCreationWithoutActorsException{
-        Movie movie = MovieMapper.movieWithActorsDTOtoMovie(movieWithActorsDTO);
-        if(movie.getActors().size() <= 0){
+        if(movieWithActorsDTO.getActors().size() <= 0){
             throw new MovieCreationWithoutActorsException("Impossible de créer un film sans acteur, relation many to many requise !");
         }
+        Movie movie = MovieMapper.movieWithActorsDTOtoMovie(movieWithActorsDTO);
         for (Actor actor : movie.getActors()) {
             actorRepository.save(actor);
         }
