@@ -19,8 +19,9 @@ public class ActorMapper {
         Actor a = new Actor();
         a.setFirstName(actorMiniDTO.getFirstName());
         a.setLastName(actorMiniDTO.getLastName());
-        if (actorMiniDTO.getId() != null)
+        if (actorMiniDTO.getId() != null){
             a.setId(actorMiniDTO.getId());
+        }
         return a;
     }
 

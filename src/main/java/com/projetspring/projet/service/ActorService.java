@@ -20,10 +20,20 @@ public class ActorService {
         this.actorRepository = actorRepository;
     }
 
-    public ActorWithMoviesDTO findByFullName(String firstName, String lastName) {
+    public List<ActorWithMoviesDTO> findAllActors() {
+        List<Actor> actors = actorRepository.findAllByJPQL();
+        List<ActorWithMoviesDTO> actorWithMoviesDTOS = new ArrayList<>();
+        for (Actor actor : actors) {
+            actorWithMoviesDTOS.add(ActorMapper.actorToActorWithMoviesDTO(actor));
+        }
+        return actorWithMoviesDTOS;
+    }
+
+    public ActorWithMoviesDTO findByFullName(String firstName, String lastName) throws NoneExistantActorException {
         Actor actor = actorRepository.findByJPQL(firstName, lastName);
-        if (actor == null)
+        if (actor == null) {
             throw new NoneExistantActorException("Actor does not exist");
+        }
         return ActorMapper.actorToActorWithMoviesDTO(actor);
     }
 
