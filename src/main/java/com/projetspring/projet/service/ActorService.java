@@ -19,10 +19,6 @@ public class ActorService {
         this.actorRepository = actorRepository;
     }
 
-    public List<Actor> findAllActors() {
-        return actorRepository.findAll();
-    }
-
     public ActorWithMoviesDTO findByFullName(String firstName, String lastName) {
         Actor actor = actorRepository.findByJPQL(firstName, lastName);
         return ActorMapper.actorToActorWithMoviesDTO(actor);
