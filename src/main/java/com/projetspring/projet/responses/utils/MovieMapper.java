@@ -3,6 +3,7 @@ package com.projetspring.projet.responses.utils;
 import com.projetspring.projet.entities.Actor;
 import com.projetspring.projet.entities.Movie;
 import com.projetspring.projet.responses.ActorMiniDTO;
+import com.projetspring.projet.responses.MovieMiniDTO;
 import com.projetspring.projet.responses.MovieWithActorsDTO;
 import org.hibernate.Hibernate;
 
@@ -34,5 +35,14 @@ public class MovieMapper {
         }
         movie.setActors(actors);
         return movie;
+    }
+
+    public static MovieMiniDTO movieToMovieMiniDTO(Movie movie) {
+        MovieMiniDTO mini = new MovieMiniDTO();
+        mini.setId(movie.getId());
+        mini.setSynopsis(movie.getSynopsis());
+        mini.setRate(movie.getRate());
+        mini.setTitle(movie.getTitle());
+        return mini;
     }
 }

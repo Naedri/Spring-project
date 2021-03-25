@@ -1,13 +1,12 @@
 package com.projetspring.projet.controllers;
 
 
-import com.projetspring.projet.entities.Actor;
+import com.projetspring.projet.responses.ActorWithMoviesDTO;
 import com.projetspring.projet.service.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/actors")
@@ -19,9 +18,9 @@ public class ActorController {
         this.actorService = actorService;
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<Actor>> findAllActors() {
-        List<Actor> actors = actorService.findAllActors();
-        return ResponseEntity.ok(actors);
+    @GetMapping("/actor")
+    public ResponseEntity<ActorWithMoviesDTO> findActorByFullName(@RequestParam String firstName, @RequestParam String lastName){
+        ActorWithMoviesDTO actor = actorService.findByFullName(firstName, lastName);
+        return ResponseEntity.ok(actor);
     }
 }
