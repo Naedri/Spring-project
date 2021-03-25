@@ -12,7 +12,6 @@ import java.util.List;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/actors")
 public class ActorController {
     private final ActorService actorService;
@@ -23,7 +22,7 @@ public class ActorController {
     }
 
     @GetMapping("/actor")
-    public ResponseEntity<ActorWithMoviesDTO> findActorByFullName(@RequestParam String firstName, @RequestParam String lastName){
+    public ResponseEntity<ActorWithMoviesDTO> findActorByFullName(@RequestParam String firstName, @RequestParam String lastName) {
         ActorWithMoviesDTO actor;
         try {
             actor = actorService.findByFullName(firstName, lastName);
@@ -34,7 +33,18 @@ public class ActorController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ActorWithMoviesDTO>> findAllActors(){
+    public ResponseEntity<List<ActorWithMoviesDTO>> findAllActors() {
         return ResponseEntity.ok(actorService.findAllActors());
+    }
+
+    @GetMapping("/actor/{actorId}")
+    public ResponseEntity<ActorWithMoviesDTO> findById(@PathVariable("actorId") Long actorId) {
+        ActorWithMoviesDTO actor;
+        try {
+            actor = actorService.findById(actorId);
+            return ResponseEntity.ok(actor);
+        } catch (NoneExistantActorException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
