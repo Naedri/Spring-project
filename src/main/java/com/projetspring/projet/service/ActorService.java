@@ -1,7 +1,7 @@
 package com.projetspring.projet.service;
 
 import com.projetspring.projet.entities.Actor;
-import com.projetspring.projet.repository.ActorRepository;
+import com.projetspring.projet.repositories.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

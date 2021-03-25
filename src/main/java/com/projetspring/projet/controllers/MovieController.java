@@ -1,6 +1,6 @@
-package com.projetspring.projet.controller;
+package com.projetspring.projet.controllers;
 
-import com.projetspring.projet.entities.Movie;
+
 import com.projetspring.projet.exceptions.MovieCreationWithoutActorsException;
 import com.projetspring.projet.responses.MovieWithActorsDTO;
 import com.projetspring.projet.service.MovieService;
@@ -26,7 +26,7 @@ public class MovieController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
+    public ResponseEntity<MovieWithActorsDTO> addMovie(@RequestBody MovieWithActorsDTO movie) {
         try{
             movieService.addMovie(movie);
         }catch (MovieCreationWithoutActorsException e){

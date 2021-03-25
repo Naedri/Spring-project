@@ -1,4 +1,4 @@
-package com.projetspring.projet.controller;
+package com.projetspring.projet.controllers;
 
 
 import com.projetspring.projet.entities.Actor;

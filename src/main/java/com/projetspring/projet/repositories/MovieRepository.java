@@ -1,4 +1,4 @@
-package com.projetspring.projet.repository;
+package com.projetspring.projet.repositories;
 
 import com.projetspring.projet.entities.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
