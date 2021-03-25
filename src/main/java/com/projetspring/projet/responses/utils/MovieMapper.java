@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieMapper {
-    public static final MovieWithActorsDTO movieToMovieWithActorsDTO(Movie movie) {
+    public static MovieWithActorsDTO movieToMovieWithActorsDTO(Movie movie) {
         MovieWithActorsDTO movieWithActorsDTO = new MovieWithActorsDTO(movie.getId(), movie.getTitle(), movie.getRate(), movie.getSynopsis());
         List<ActorMiniDTO> actorMiniDTOS = new ArrayList<>();
         Hibernate.initialize(movie.getActors());
@@ -29,6 +29,8 @@ public class MovieMapper {
         movie.setRate(movieWithActorsDTO.getRate());
         List<ActorMiniDTO> actorsDto = movieWithActorsDTO.getActors();
         List<Actor> actors = new ArrayList<>();
+        if (movieWithActorsDTO.getId() != null)
+            movie.setId(movieWithActorsDTO.getId());
         for (ActorMiniDTO actorDto : actorsDto) {
             Actor a = ActorMapper.actorMiniDTOToActor(actorDto);
             actors.add(a);
