@@ -2,8 +2,6 @@ package com.projetspring.projet.service;
 
 import com.projetspring.projet.entities.Actor;
 import com.projetspring.projet.entities.Movie;
-import com.projetspring.projet.repositories.ActorRepository;
-import com.projetspring.projet.repositories.MovieRepository;
 import com.projetspring.projet.exceptions.MovieCreationWithoutActorsException;
 import com.projetspring.projet.exceptions.NoneExistantActorException;
 import com.projetspring.projet.repositories.ActorRepository;
@@ -15,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class MovieService {
@@ -67,5 +66,19 @@ public class MovieService {
 
     public MovieWithActorsDTO findById(Long movieId) {
         return MovieMapper.movieToMovieWithActorsDTO(movieRepository.findByJPQL(movieId));
+    }
+
+    public void deleteMovie(Long movieId) {
+        Movie movie = movieRepository.findByJPQL(movieId);
+        if (movie == null)
+            throw new NoSuchElementException();
+        movieRepository.delete(movie);
+        List<Actor> actors = movie.getActors();
+        if (actors.isEmpty()) return;
+        for (Actor actor : actors) {
+            Actor actorFull = actorRepository.findByIdJPQL(actor.getId());
+            if (actorFull == null)
+                actorRepository.delete(actor);
+        }
     }
 }

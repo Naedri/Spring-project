@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -42,6 +43,16 @@ public class MovieController {
     public ResponseEntity<List<MovieWithActorsDTO>> findAll() {
         List<MovieWithActorsDTO> movies = movieService.findAll();
         return ResponseEntity.ok(movies);
+    }
+
+    @DeleteMapping("/movie/{movieId}")
+    public ResponseEntity<String> deleteMovie(@PathVariable("movieId") Long movieId) {
+        try {
+            movieService.deleteMovie(movieId);
+            return ResponseEntity.ok("Deleted");
+        }catch(NoSuchElementException e)  {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/sort")
