@@ -1,5 +1,6 @@
 package com.projetspring.projet.service;
 
+import com.projetspring.projet.exceptions.MovieCreationWithOverRate;
 import com.projetspring.projet.exceptions.MovieCreationWithoutActorsException;
 import com.projetspring.projet.exceptions.NoneExistantActorException;
 import com.projetspring.projet.responses.ActorMiniDTO;
@@ -18,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -45,11 +47,11 @@ public class MovieServiceTest {
     void init() {
         movieWithActorsDTO = new MovieWithActorsDTO(id, title, rate, synopsis);
         actorMiniDTO = new ActorMiniDTO(id, firstname, lastname);
-        movieWithActorsDTO.setActors(Arrays.asList(actorMiniDTO));
+        movieWithActorsDTO.setActors(Collections.singletonList(actorMiniDTO));
     }
 
     @Test
-    void addMovie() throws MovieCreationWithoutActorsException, NoneExistantActorException {
+    void addMovie() throws MovieCreationWithoutActorsException, NoneExistantActorException, MovieCreationWithOverRate {
         MovieWithActorsDTO movieWithActorsDTO1 = movieService.addMovie(movieWithActorsDTO);
         Assertions.assertNotNull(movieWithActorsDTO1.getId());
         Assertions.assertEquals(movieWithActorsDTO.getTitle(), movieWithActorsDTO1.getTitle());
@@ -64,24 +66,20 @@ public class MovieServiceTest {
     @Test
     void addMovieThrowMovieCreationWithoutActorsException() {
         movieWithActorsDTO.setActors(new ArrayList<>());
-        Assertions.assertThrows(MovieCreationWithoutActorsException.class, () -> {
-            movieService.addMovie(movieWithActorsDTO);
-        });
+        Assertions.assertThrows(MovieCreationWithoutActorsException.class, () -> movieService.addMovie(movieWithActorsDTO));
     }
 
     @Test
     void addMovieThrowNoneExistantActorException() {
         movieWithActorsDTO.getActors().get(0).setId(1L);
-        Assertions.assertThrows(NoneExistantActorException.class, () -> {
-            movieService.addMovie(movieWithActorsDTO);
-        });
+        Assertions.assertThrows(NoneExistantActorException.class, () -> movieService.addMovie(movieWithActorsDTO));
     }
 
     @Test
-    void findAll() throws MovieCreationWithoutActorsException, NoneExistantActorException {
+    void findAll() throws MovieCreationWithoutActorsException, NoneExistantActorException, MovieCreationWithOverRate {
         MovieWithActorsDTO movieWithActorsDTO1 = new MovieWithActorsDTO(null, "movieWithActorsDTO1", 0f, "synopsis");
         ActorMiniDTO actor = new ActorMiniDTO(null, "Jean", "Dujardin");
-        movieWithActorsDTO1.setActors(Arrays.asList(actor));
+        movieWithActorsDTO1.setActors(Collections.singletonList(actor));
 
         movieWithActorsDTO = movieService.addMovie(movieWithActorsDTO);
         movieWithActorsDTO1 = movieService.addMovie(movieWithActorsDTO1);
@@ -93,13 +91,13 @@ public class MovieServiceTest {
     }
 
     @Test
-    void getAllMoviesGreaterThanTest() throws MovieCreationWithoutActorsException, NoneExistantActorException {
+    void getAllMoviesGreaterThanTest() throws MovieCreationWithoutActorsException, NoneExistantActorException, MovieCreationWithOverRate {
         MovieWithActorsDTO movieWithActorsDTO1 = new MovieWithActorsDTO(null, "movieWithActorsDTO1", 0f, "synopsis");
         MovieWithActorsDTO movieWithActorsDTO2 = new MovieWithActorsDTO(null, "movieWithActorsDTO2", 3f, "synopsis");
         ActorMiniDTO actor = new ActorMiniDTO(null, "Jean", "Dujardin");
         ActorMiniDTO actor2 = new ActorMiniDTO(null, "Jean2", "Dujardin2");
-        movieWithActorsDTO1.setActors(Arrays.asList(actor));
-        movieWithActorsDTO2.setActors(Arrays.asList(actor2));
+        movieWithActorsDTO1.setActors(Collections.singletonList(actor));
+        movieWithActorsDTO2.setActors(Collections.singletonList(actor2));
 
         movieWithActorsDTO = movieService.addMovie(movieWithActorsDTO);
         movieService.addMovie(movieWithActorsDTO1);
@@ -112,7 +110,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    void findById() throws MovieCreationWithoutActorsException, NoneExistantActorException {
+    void findById() throws MovieCreationWithoutActorsException, NoneExistantActorException, MovieCreationWithOverRate {
         movieWithActorsDTO = movieService.addMovie(movieWithActorsDTO);
         MovieWithActorsDTO movieWithActorsDTO1 = movieService.findById(movieWithActorsDTO.getId());
         Assertions.assertEquals(movieWithActorsDTO, movieWithActorsDTO1);
