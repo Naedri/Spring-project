@@ -1,6 +1,7 @@
 package com.projetspring.projet.controllers;
 
 
+import com.projetspring.projet.exceptions.MovieCreationWithOverRate;
 import com.projetspring.projet.exceptions.MovieCreationWithoutActorsException;
 import com.projetspring.projet.exceptions.NoneExistantActorException;
 import com.projetspring.projet.responses.MovieWithActorsDTO;
@@ -31,7 +32,7 @@ public class MovieControllerTest {
     public ResponseEntity<MovieWithActorsDTO> addMovie(@RequestBody MovieWithActorsDTO movie) {
         try {
             movie = movieService.addMovie(movie);
-        } catch (MovieCreationWithoutActorsException | NoneExistantActorException e) {
+        } catch (MovieCreationWithoutActorsException | NoneExistantActorException | MovieCreationWithOverRate e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
