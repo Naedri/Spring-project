@@ -15,6 +15,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder =  true)
 @ToString
 @EqualsAndHashCode
 @Table(name = "actors",
