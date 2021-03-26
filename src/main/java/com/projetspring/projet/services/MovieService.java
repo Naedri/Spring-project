@@ -73,15 +73,16 @@ public class MovieService {
 
     public void deleteMovie(Long movieId) {
         Movie movie = movieRepository.findByJPQL(movieId);
-        if (movie == null)
+        if (movie == null){
             throw new NoSuchElementException();
+        }
         movieRepository.delete(movie);
         List<Actor> actors = movie.getActors();
-        if (actors.isEmpty()) return;
         for (Actor actor : actors) {
             Actor actorFull = actorRepository.findByIdJPQL(actor.getId());
-            if (actorFull == null)
+            if (actorFull == null){
                 actorRepository.delete(actor);
+            }
         }
     }
 }
