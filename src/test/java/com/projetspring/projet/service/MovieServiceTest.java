@@ -1,7 +1,5 @@
 package com.projetspring.projet.service;
 
-import com.projetspring.projet.entities.Actor;
-import com.projetspring.projet.entities.Movie;
 import com.projetspring.projet.exceptions.MovieCreationWithoutActorsException;
 import com.projetspring.projet.exceptions.NoneExistantActorException;
 import com.projetspring.projet.responses.ActorMiniDTO;
@@ -85,17 +83,38 @@ public class MovieServiceTest {
         ActorMiniDTO actor = new ActorMiniDTO(null, "Jean", "Dujardin");
         movieWithActorsDTO1.setActors(Arrays.asList(actor));
 
-        movieService.addMovie(movieWithActorsDTO);
-        movieService.addMovie(movieWithActorsDTO1);
+        movieWithActorsDTO = movieService.addMovie(movieWithActorsDTO);
+        movieWithActorsDTO1 = movieService.addMovie(movieWithActorsDTO1);
 
         List<MovieWithActorsDTO> movieList = movieService.findAll();
         Assertions.assertEquals(2, movieList.size());
-
-        movieWithActorsDTO.setActors(null);
-        movieList.get(0).setActors(null);
-        movieWithActorsDTO1.setActors(null);
-        movieList.get(1).setActors(null);
         Assertions.assertEquals(movieWithActorsDTO, movieList.get(0));
         Assertions.assertEquals(movieWithActorsDTO1, movieList.get(1));
+    }
+
+    @Test
+    void getAllMoviesGreaterThanTest() throws MovieCreationWithoutActorsException, NoneExistantActorException {
+        MovieWithActorsDTO movieWithActorsDTO1 = new MovieWithActorsDTO(null, "movieWithActorsDTO1", 0f, "synopsis");
+        MovieWithActorsDTO movieWithActorsDTO2 = new MovieWithActorsDTO(null, "movieWithActorsDTO2", 3f, "synopsis");
+        ActorMiniDTO actor = new ActorMiniDTO(null, "Jean", "Dujardin");
+        ActorMiniDTO actor2 = new ActorMiniDTO(null, "Jean2", "Dujardin2");
+        movieWithActorsDTO1.setActors(Arrays.asList(actor));
+        movieWithActorsDTO2.setActors(Arrays.asList(actor2));
+
+        movieWithActorsDTO = movieService.addMovie(movieWithActorsDTO);
+        movieService.addMovie(movieWithActorsDTO1);
+        movieWithActorsDTO2 = movieService.addMovie(movieWithActorsDTO2);
+
+        List<MovieWithActorsDTO> movieList = movieService.getAllMoviesGreaterThan(3F);
+        Assertions.assertEquals(2, movieList.size());
+        Assertions.assertEquals(movieWithActorsDTO, movieList.get(0));
+        Assertions.assertEquals(movieWithActorsDTO2, movieList.get(1));
+    }
+
+    @Test
+    void findById() throws MovieCreationWithoutActorsException, NoneExistantActorException {
+        movieWithActorsDTO = movieService.addMovie(movieWithActorsDTO);
+        MovieWithActorsDTO movieWithActorsDTO1 = movieService.findById(movieWithActorsDTO.getId());
+        Assertions.assertEquals(movieWithActorsDTO, movieWithActorsDTO1);
     }
 }
