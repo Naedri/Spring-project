@@ -114,4 +114,12 @@ public class MovieServiceTest {
         MovieWithActorsDTO movieWithActorsDTO1 = movieService.findById(movieWithActorsDTO.getId());
         Assertions.assertEquals(movieWithActorsDTO, movieWithActorsDTO1);
     }
+
+    @Test
+    void deleteMovie() throws MovieCreationWithoutActorsException, NoneExistantActorException, MovieCreationWithOverRate {
+        movieWithActorsDTO = movieService.addMovie(movieWithActorsDTO);
+        Long movieId = movieWithActorsDTO.getId();
+        movieService.deleteMovie(movieId);
+        Assertions.assertThrows(NullPointerException.class, () -> movieService.findById(movieId));
+    }
 }
