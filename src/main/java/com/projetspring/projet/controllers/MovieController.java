@@ -5,7 +5,7 @@ import com.projetspring.projet.exceptions.MovieCreationWithOverRate;
 import com.projetspring.projet.exceptions.MovieCreationWithoutActorsException;
 import com.projetspring.projet.exceptions.NoneExistantActorException;
 import com.projetspring.projet.responses.MovieWithActorsDTO;
-import com.projetspring.projet.service.MovieService;
+import com.projetspring.projet.services.MovieService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

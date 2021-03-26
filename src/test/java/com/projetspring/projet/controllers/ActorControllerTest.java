@@ -7,7 +7,7 @@ import com.projetspring.projet.entities.Actor;
 import com.projetspring.projet.exceptions.NoneExistantActorException;
 import com.projetspring.projet.responses.ActorWithMoviesDTO;
 import com.projetspring.projet.responses.utils.ActorMapper;
-import com.projetspring.projet.service.ActorService;
+import com.projetspring.projet.services.ActorService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

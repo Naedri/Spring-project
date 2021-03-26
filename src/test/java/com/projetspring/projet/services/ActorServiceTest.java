@@ -1,4 +1,4 @@
-package com.projetspring.projet.service;
+package com.projetspring.projet.services;
 
 import com.projetspring.projet.entities.Actor;
 import com.projetspring.projet.entities.Movie;

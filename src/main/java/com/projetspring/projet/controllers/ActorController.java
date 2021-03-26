@@ -3,7 +3,7 @@ package com.projetspring.projet.controllers;
 
 import com.projetspring.projet.exceptions.NoneExistantActorException;
 import com.projetspring.projet.responses.ActorWithMoviesDTO;
-import com.projetspring.projet.service.ActorService;
+import com.projetspring.projet.services.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

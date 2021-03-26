@@ -1,4 +1,4 @@
-package com.projetspring.projet.service;
+package com.projetspring.projet.services;
 
 import com.projetspring.projet.exceptions.MovieCreationWithOverRate;
 import com.projetspring.projet.exceptions.MovieCreationWithoutActorsException;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
