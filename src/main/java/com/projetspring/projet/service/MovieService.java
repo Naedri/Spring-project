@@ -2,6 +2,7 @@ package com.projetspring.projet.service;
 
 import com.projetspring.projet.entities.Actor;
 import com.projetspring.projet.entities.Movie;
+import com.projetspring.projet.exceptions.MovieCreationWithOverRate;
 import com.projetspring.projet.exceptions.MovieCreationWithoutActorsException;
 import com.projetspring.projet.exceptions.NoneExistantActorException;
 import com.projetspring.projet.repositories.ActorRepository;
@@ -27,9 +28,11 @@ public class MovieService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public MovieWithActorsDTO addMovie(MovieWithActorsDTO movieWithActorsDTO) throws MovieCreationWithoutActorsException, NoneExistantActorException {
+    public MovieWithActorsDTO addMovie(MovieWithActorsDTO movieWithActorsDTO) throws MovieCreationWithoutActorsException, NoneExistantActorException, MovieCreationWithOverRate {
         if (movieWithActorsDTO.getActors().isEmpty()) {
             throw new MovieCreationWithoutActorsException("Impossible de créer un film sans acteur, relation many to many requise !");
+        } else if (movieWithActorsDTO.getRate()<0 || movieWithActorsDTO.getRate()>5){
+            throw new MovieCreationWithOverRate("Impossible de créer un film avec une note exclue de [0;5]");
         }
         Movie movie = MovieMapper.movieWithActorsDTOtoMovie(movieWithActorsDTO);
         List<Actor> actors = movie.getActors();
