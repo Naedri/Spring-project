@@ -72,12 +72,13 @@ public class ActorControllerTest {
                 ActorMapper.actorToActorWithMoviesDTO(actor),
                 ActorMapper.actorToActorWithMoviesDTO(actor1)
         ));
-        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get(CONTROLLER_BASE_URL + "/")
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(CONTROLLER_BASE_URL + "/")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk()
                 ).andReturn();
         ArrayList<ActorWithMoviesDTO> actorWithMoviesDTOS = MAPPER.readValue(
-                mvcResult.getResponse().getContentAsString(), new TypeReference<>() {});
+                mvcResult.getResponse().getContentAsString(), new TypeReference<>() {
+                });
 
         Assertions.assertEquals(2, actorWithMoviesDTOS.size());
         Assertions.assertEquals(actor.getFirstName(), actorWithMoviesDTOS.get(0).getFirstName());
@@ -87,6 +88,21 @@ public class ActorControllerTest {
     }
 
 
-    void findById() {
+    @Test
+    void findById() throws Exception {
+        Long id = 13L;
+        actor.setId(id);
+        Mockito.when(actorService.findById(actor.getId()))
+                .thenReturn(ActorMapper.actorToActorWithMoviesDTO(actor));
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(CONTROLLER_BASE_URL + "/actor/" + actor.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk()
+                ).andReturn();
+        ActorWithMoviesDTO actorWithMoviesDTO = MAPPER.readValue(
+                mvcResult.getResponse().getContentAsString(), ActorWithMoviesDTO.class);
+
+        Assertions.assertEquals(actor.getId(), actorWithMoviesDTO.getId());
+        Assertions.assertEquals(actor.getFirstName(), actorWithMoviesDTO.getFirstName());
+        Assertions.assertEquals(actor.getLastName(), actorWithMoviesDTO.getLastName());
     }
 }
