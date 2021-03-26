@@ -49,7 +49,7 @@ public class MovieController {
     public ResponseEntity<String> deleteMovie(@PathVariable("movieId") Long movieId) {
         try {
             movieService.deleteMovie(movieId);
-            return ResponseEntity.ok("Deleted");
+            return ResponseEntity.ok().build();
         }catch(NoSuchElementException e)  {
             return ResponseEntity.notFound().build();
         }
